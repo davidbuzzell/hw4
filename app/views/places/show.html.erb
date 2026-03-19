@@ -1,5 +1,4 @@
 <h1><%= @place["name"] %></h1>
-<br />
 
 <% for entry in @entries %>
   <h2><%= entry["title"] %></h2>
@@ -9,7 +8,7 @@
 <% end %>
 
 <p>
-  <a href="/entries/new?place_id=<%= @place["id"] %>">New Entry</a>
+  <a href="/entries/new?place_id=<%= @place["id"] %>" class="btn btn-primary btn-lg">New Entry</a>
 </p>
 
 <p>
@@ -18,5 +17,5 @@
 
 <form action="/places/<%= @place["id"] %>" method="post">
   <input type="hidden" name="_method" value="delete">
-  <a href="/places" class="btn btn-primary">Delete Place</a>
+  <a href="/places" class="btn btn-secondary">Delete Place</a>
 </form>

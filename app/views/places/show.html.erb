@@ -1,23 +1,41 @@
-<h1><%= @place["name"] %></h1>
+<div class="container">
+  <div class="mb-4">
+    <h1><%= @place["name"] %></h1>
+  </div>
 
-<% for entry in @entries %>
-  <h2><%= entry["title"] %></h2>
-  <p><%= entry["occurred_on"] %></p>
-  <p><%= entry["description"] %></p>
-  <% if entry.uploaded_image.attached? %>
-    <img src="<%= url_for(entry.uploaded_image) %>" class="img-fluid">
+  <% if @current_user %>
+    <div class="mb-4">
+      <a href="/entries/new?place_id=<%= @place["id"] %>" class="btn btn-primary btn-lg">New Post</a>
+    </div>
+
+    <div class="row">
+      <% for entry in @entries %>
+        <% if entry["user_id"] == @current_user["id"] %>
+          <div class="col-md-4">
+            <h2><%= entry["title"] %></h2>
+            <p><%= entry["occurred_on"] %></p>
+            <% if entry.uploaded_image.attached? %>
+              <img src="<%= url_for(entry.uploaded_image) %>" class="img-fluid">
+            <% end %>
+            <p><%= entry["description"] %></p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="mb-4">
+      <h4><i>You must <a href="/login">login</a> to view these posts</i></h4>
+    </div>
   <% end %>
-<% end %>
 
-<p>
-  <a href="/entries/new?place_id=<%= @place["id"] %>" class="btn btn-primary btn-lg">New Entry</a>
-</p>
+  <div class="row">
+    <div class="mb-2">
+      <a href="/places"><b>Back to All Places</b></a>
+    </div>
 
-<p>
-  <a href="/places"><b>Back to All Places</b></a>
-</p>
-
-<form action="/places/<%= @place["id"] %>" method="post">
-  <input type="hidden" name="_method" value="delete">
-  <a href="/places" class="btn btn-secondary">Delete Place</a>
-</form>
+    <form action="/places/<%= @place["id"] %>" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <button href="/places" class="btn btn-secondary">Delete Place</a>
+    </form>
+  </div>
+</div>
